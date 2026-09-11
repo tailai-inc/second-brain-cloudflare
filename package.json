@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "wrangler dev",
+    "dev": "scripts/secrets/with-secrets.sh wrangler dev",
     "dev:demo": "wrangler dev -c wrangler.demo.jsonc --port 8799",
+    "secrets:login": "infisical login",
     "predeploy": "node scripts/predeploy-guard.mjs",
     "check:scope": "node scripts/check-scope.mjs",
     "deploy": "wrangler deploy",
@@ -38,7 +39,8 @@
     "esbuild": "^0.28.1",
     "typescript": "^7.0.2",
     "vitest": "^4.1.10",
-    "wrangler": "^4.114.0"
+    "wrangler": "^4.114.0",
+    "@infisical/cli": "0.43.129"
   },
   "overrides": {
     "undici": "7.29.0"

@@ -1,1 +1,7 @@
+# Infisical is the source of truth for this value (project "second-brain").
+# Run `npm run secrets:login` once, then `npm run dev` pulls it in
+# automatically - no .dev.vars file needed.
+#
+# This file documents the shape for anyone without Infisical access: copy it
+# to .dev.vars for local development.
 AUTH_TOKEN=your_memorable_token_here

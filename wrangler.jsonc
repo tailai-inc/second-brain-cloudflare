@@ -9,7 +9,14 @@
 	"d1_databases": [
 		{
 			"binding": "DB",
-			"database_name": "second-brain-db"
+			"database_name": "second-brain-db",
+			"database_id": "29afd872-708b-4257-b0f1-a67e9e5bf580"
+		}
+	],
+	"routes": [
+		{
+			"pattern": "kb.tailai.dev",
+			"custom_domain": true
 		}
 	],
 	"vectorize": [
@@ -23,14 +30,17 @@
 	},
 	"kv_namespaces": [
 		{
-			"binding": "OAUTH_KV"
+			"binding": "OAUTH_KV",
+			"id": "61408dc224254cc59677c11ad8c6f906"
 		}
 	],
 	"vars": {
 		"VECTORIZE_GRACE_MS": "300000"
 	},
 	"secrets": {
-		"required": ["AUTH_TOKEN"]
+		"required": [
+			"AUTH_TOKEN"
+		]
 	},
 	"assets": {
 		"directory": "./public"

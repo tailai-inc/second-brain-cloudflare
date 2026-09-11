@@ -33,6 +33,7 @@
 import { readdirSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { checkRequiredSecrets } from "./secrets/doctor.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -42,11 +43,10 @@ if (process.env.ALLOW_BARE_DEPLOY === "1") process.exit(0);
 // a middle segment, as in wrangler.personal.jsonc.
 const overrides = readdirSync(ROOT).filter((f) => /^wrangler\.[A-Za-z0-9_-]+\.jsonc$/.test(f));
 
-if (overrides.length === 0) process.exit(0);
+if (overrides.length > 0) {
+	const list = overrides.map((f) => `    ${f}`).join("\n");
 
-const list = overrides.map((f) => `    ${f}`).join("\n");
-
-console.error(`
+	console.error(`
 ✖ Refusing a bare deploy on a machine that has per-environment config.
 
   Found:
@@ -67,5 +67,11 @@ ${list}
 
     ALLOW_BARE_DEPLOY=1 npm run deploy
 `);
+	process.exit(1);
+}
 
-process.exit(1);
+// Infisical is this project's secret source of truth (see
+// scripts/secrets/with-secrets.sh). This only verifies wrangler.jsonc's
+// `secrets.required` list is servable — it does not push anything, and it
+// never blocks a self-hoster who has no TailAI Infisical access.
+await checkRequiredSecrets({ root: ROOT, wranglerConfig: resolve(ROOT, "wrangler.jsonc") });
